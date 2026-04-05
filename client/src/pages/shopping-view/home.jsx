@@ -6,8 +6,8 @@ import nikeLogo from "../../assets/nike-logo.png";
 import adidas from "../../assets/adidas.png";
 import puma from "../../assets/puma.png";
 import levis from "../../assets/levis.png";
-import zara from "../../assets/zara.png";
-import HM from "../../assets/h&m.png";
+import zara from "../../assets/Zara.png";
+import HM from "../../assets/H&M.png";
 
 import {
   Airplay,
