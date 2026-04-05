@@ -3,13 +3,9 @@ services:
     name: smartbuy-api
     runtime: node
     rootDir: server
-    plan: starter
+    plan: free
     buildCommand: npm install
     startCommand: npm start
-    disk:
-      name: smartbuy-uploads
-      mountPath: /opt/render/project/src/server/uploads
-      sizeGB: 5
     envVars:
       - key: NODE_ENV
         value: production
@@ -23,6 +19,14 @@ services:
         sync: false
       - key: RAZORPAY_KEY_SECRET
         sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: CLOUDINARY_FOLDER
+        value: smartbuy
       - key: MAIL_SERVICE
         sync: false
       - key: SMTP_HOST
