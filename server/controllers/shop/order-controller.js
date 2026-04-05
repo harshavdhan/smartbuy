@@ -211,37 +211,27 @@ const verifyRazorpayPayment = async (req, res) => {
 
     const user = await User.findById(order.userId).select("userName email").lean();
 
-    let emailNotification = {
-      sent: false,
-      reason: "No registered email found for this order.",
-    };
-
-    if (user?.email) {
-      try {
-        emailNotification = await sendOrderPlacedEmail({
-          to: user.email,
-          userName: user.userName,
-          orderId: order._id,
-          orderStatus: order.orderStatus,
-          cartItems: order.cartItems,
-        });
-      } catch (mailError) {
-        console.log("Order confirmation email error:", mailError.message);
-        emailNotification = {
-          sent: false,
-          reason: "Payment verified, but the confirmation email could not be sent.",
-        };
-      }
-    }
-
     res.status(200).json({
       success: true,
-      message: emailNotification.sent
-        ? "Payment verified, order confirmed, and confirmation email sent."
-        : `Payment verified and order confirmed. ${emailNotification.reason}`,
+      message: "Payment verified and order confirmed.",
       orderId: order._id,
-      emailNotification,
     });
+
+    if (user?.email) {
+      setImmediate(async () => {
+        try {
+          await sendOrderPlacedEmail({
+            to: user.email,
+            userName: user.userName,
+            orderId: order._id,
+            orderStatus: order.orderStatus,
+            cartItems: order.cartItems,
+          });
+        } catch (mailError) {
+          console.log("Order confirmation email error:", mailError.message);
+        }
+      });
+    }
   } catch (e) {
     console.log(e);
     res.status(500).json({

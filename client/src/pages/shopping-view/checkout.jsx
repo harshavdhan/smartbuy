@@ -142,8 +142,8 @@ function ShoppingCheckout() {
         );
 
         if (verificationResult?.payload?.success) {
-          await dispatch(fetchCartItems(user?.id));
           setIsOrderPlaced(true);
+          dispatch(fetchCartItems(user?.id));
           toast({
             title: "Payment successful and order saved!",
           });
